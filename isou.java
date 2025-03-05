@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class isou{
-    public static int S[]={0,1,2};
-    public static int O[][]={{},{0,1},{1,2},{0,1,2}};
+    public static int S[]={0,1,2,3,4};
+    public static int O[][]={{},{0},{1},{0,1},{1,2},{0,1,2},{0,1,2,3,4}};
+    public static int M[] = {0,1,2,3};
     
     public static List<Integer> commonSet(List<Integer> a,List<Integer> b){
         List<Integer> set = new ArrayList<Integer>();
@@ -50,6 +51,21 @@ public class isou{
             }
         }
         return false;
+    }
+    public static boolean searchIn(List<Integer> s,List<Integer> o){
+        for(int i=0;i<o.size();i++){
+            int f_o = 0;
+            for(int j=0;j<s.size();j++){
+                if(o.get(i)==s.get(j)){
+                    f_o = 1;
+                    break;
+                }
+            }
+            if(f_o == 0){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static List<Integer> aryToList(int a[]){
@@ -165,10 +181,23 @@ public class isou{
             }
         }
         if(f_o1 == 1 && f_o2 == 1 && f_o3 == 1){
-            System.out.printf("(S,O)は位相空間である。");
+            System.out.printf("(S,O)は位相空間である。\n");
         }
         else{
-            System.out.printf("(S,O)は位相空間でない。");
+            System.out.printf("(S,O)は位相空間でない。\n");
         }
+        //Mの開核
+        List<Integer> ml = Arrays.stream(M).boxed().collect(Collectors.toList());
+        List<Integer> m_o = new ArrayList<>();
+        for(int i=0;i<O.length;i++){
+            List<Integer> ol = Arrays.stream(O[i]).boxed().collect(Collectors.toList());;
+            if(searchIn(ml,ol)){
+                m_o = unionSet(m_o,ol);
+            }
+        }
+        System.out.printf("M=");
+        System.out.print(ml);
+        System.out.printf("の開核\nM゜=");
+        System.out.print(m_o);
     }
 }
